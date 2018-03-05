@@ -23,4 +23,20 @@ export class MarkerService extends Init{
 		//configurar en el local storage
 		localStorage.setItem('markers',JSON.stringify(markers));
 	}
+
+	actualizarMarcador(marker_aux,nuevaLatAux,nuevaLongAux){
+		//Obtener marcadores
+		var markers =JSON.parse(localStorage.getItem('markers'));
+		
+		for(var i=0; i<markers.lenght; i++){
+			console.log(marker_aux.Lat); console.log(markers[i].Lat);
+			console.log(marker_aux.Long); console.log(markers[i].Long);
+			if(marker_aux.Lat == markers[i].Lat && marker_aux.Long == markers[i].Long){	
+				markers[i].Lat=nuevaLatAux;
+				markers[i].Long=nuevaLongAux;
+			}
+		}
+		//configurar en el local storage
+		localStorage.setItem('markers',JSON.stringify(markers));	
+	}
 }

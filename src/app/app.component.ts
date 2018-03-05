@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MarkerService } from './service/marker.service';
-
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map'
 

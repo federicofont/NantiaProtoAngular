@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MarkerService } from '../service/marker.service';
+import { RequestService } from '../service/request.service';
 
 @Component({
   selector: 'app-mapa',
   templateUrl: './mapa.component.html',
   styleUrls: ['./mapa.component.css'],
-  providers: [MarkerService]
+  providers: [MarkerService, RequestService]
 })
 export class MapaComponent  {
 
@@ -23,11 +24,14 @@ export class MapaComponent  {
   //Marcadores
   markers:marker[];
 
-  constructor(private _markerService:MarkerService) {
-    this.markers = this._markerService.obtenerMarcadores();
+  constructor(
+    private _markerService:MarkerService,
+    private _requestService:RequestService) {
+   this.markers = this._markerService.obtenerMarcadores();
+   //this.
      }
 
-  marcadorCliqueado(marcador:marker,index:number){
+   marcadorCliqueado(marcador:marker,index:number){
   	console.log("Marcador cliqueado: " + marcador.Nombre);
   }
 
@@ -38,49 +42,75 @@ export class MapaComponent  {
   		Nombre: "Sin Titulo",
   		Lat: $event.coords.lat,
   		Long:$event.coords.lng,
-  		Movil: false
+  		Movil: true
   	}
 
   	this.markers.push(nuevoMarcador);
+    this._markerService.agregarMarcador(nuevoMarcador);
   }
 
   posicionFinalMarcador(marcador:any, $event:any){
   	console.log("Posicion Final:",marcador,$event);
 
-  	var actualizarMarcador ={
-  		Nombre: marcador.nombre,
-  		Lat: parseFloat(marcador.lat) ,
-  		Long:parseFloat(marcador.lng),
-  		Movil: false
+  	var actuaMarcador ={
+  		Nombre: marcador.Nombre,
+  		Lat: parseFloat(marcador.Lat) ,
+  		Long:parseFloat(marcador.Long),
+  		Movil: true
   	}
 
   	var nuevaLat = $event.coords.lat;
   	var nuevaLong = $event.coords.lng;
-  		
+
+    console.log('nuevaLat: '+ nuevaLat);
+  	console.log('nuevaLong: '+ nuevaLong);
+    console.log('actuaMarcador: '+ actuaMarcador.Nombre);
+
+    this._markerService.actualizarMarcador(actuaMarcador, nuevaLat, nuevaLong);	
   }
 
   agregarMarcador(){
     console.log('Agregando Marcador');
+
 
     if (this.marcadorMovil == 'si') {
        var esMovil = true;
     }else{
       var esMovil = false;
     }
-
+    
+    console.log(esMovil);
     var nuevoMarcador ={
-      nombre:this.nombreMarcador,
+      Nombre:this.nombreMarcador,
       Lat:parseFloat(this.latitudMarcador),
       Long:parseFloat(this.longitudMarcador),
       Movil:esMovil
     }
 
     this.markers.push(nuevoMarcador);
+    this._markerService.agregarMarcador(nuevoMarcador);
+   }
+
+   ngOnInit(){
+     console.log(this._requestService.getPrueba);
+     this._requestService.getPuntos().subscribe(
+       result => {
+         this.markers = result;
+         //console.log(result);
+         if(!this.markers){
+           console.log("Error en el servidor");
+         }
+
+       },
+       error => {
+         var errorMessage = <any>error;
+         console.log(errorMessage);
+       })
 
    }
 
- }
 
+}
 //tipo de Marcado
 interface marker{
 	Nombre?:string;

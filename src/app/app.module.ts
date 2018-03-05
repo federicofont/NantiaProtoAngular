@@ -11,11 +11,10 @@ import { AgmCoreModule } from '@agm/core';
 import { MapaComponent } from './mapa/mapa.component';
 import { MarkerService } from './service/marker.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    MapaComponent
+    MapaComponent,
   ],
   imports: [
     BrowserModule,

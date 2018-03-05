@@ -10,16 +10,17 @@
     <div class="col-md-12">
     <div class="mapa">
       <agm-map 
-      [latitude]="Lat" 
+      [latitude]="Lat"
       [longitude]="Long"   
       [zoom]="zoom"
       [disableDefaultUI]="false"
       [zoomControl]="false"
-      (mapClick)="mapCliqueado($event)" >
+      (mapClick)="mapCliqueado($event)" 
+      >
       
       <agm-marker 
       *ngFor="let m of markers; let i = index"
-      (markerclick)="marcadorCliqueado(m,i )"
+      (markerclick)="marcadorCliqueado(m,i)"
       [latitude]="m.Lat" 
       [longitude]="m.Long"
       [markerDraggable]="m.Movil"
@@ -55,7 +56,7 @@
           <input type="text" [(ngModel)]="longitudMarcador" name="longitudMarcador">
           
           <label>Movil</label>
-          <select>type="text" [(ngModel)]="marcadorMovil" name="marcadorMovil">
+          <select type="text" [(ngModel)]="marcadorMovil" name="marcadorMovil">
             <option value="no">NO</option>
             <option value="si">SI</option>
           </select> 
@@ -66,6 +67,17 @@
     </div>  
     </div>
     </div>
+
+    <div class="listado">
+      <h3>Listado de Marcadores</h3>
+      <ul *ngIf="markers">
+        <li *ngFor="let marker of markers">
+          {{marker.id}}-{{marker.title}}
+        </li>
+      </ul>
+      <span *ngIf="!markers">Cargando...</span>
+    </div>
+    
 
   <!-- <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="> -->
 </div>
